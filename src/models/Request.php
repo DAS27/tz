@@ -78,8 +78,8 @@ class Request extends \yii\db\ActiveRecord
             )
             ->andWhere(['AND', 'req1.email = req2.email', 'req1.phone = req2.phone'])
             ->andWhere(
-                'created_at < :req_created_at',
-                ['req_created_at' => $req->created_at]
+                'id < :req_id',
+                ['req_id' => $req->id]
             )
             ->orderBy(['id' => SORT_DESC])
             ->limit(1);
