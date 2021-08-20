@@ -14,7 +14,7 @@ class ManagerSearch extends Manager
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id', 'is_works'], 'integer'],
@@ -25,7 +25,7 @@ class ManagerSearch extends Manager
     /**
      * {@inheritdoc}
      */
-    public function scenarios()
+    public function scenarios(): array
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
@@ -38,7 +38,7 @@ class ManagerSearch extends Manager
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params): ActiveDataProvider
     {
         $query = Manager::find();
 
@@ -58,10 +58,10 @@ class ManagerSearch extends Manager
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id'         => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'is_works' => $this->is_works,
+            'is_works'   => $this->is_works,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

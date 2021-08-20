@@ -10,18 +10,18 @@ use yii\web\NotFoundHttpException;
 
 class ManagerController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $searchModel = new ManagerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionView($id)
+    public function actionView($id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),

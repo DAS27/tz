@@ -2,31 +2,29 @@
 
 $db = require __DIR__ . '/db.php';
 
-$config = [
-    'id' => 'basic-console',
-    'language' => 'ru',
-    'timeZone' => 'Europe/Moscow',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+return [
+    'id'                  => 'basic-console',
+    'language'            => 'ru',
+    'timeZone'            => 'Europe/Moscow',
+    'basePath'            => dirname(__DIR__),
+    'bootstrap'           => ['log'],
     'controllerNamespace' => 'app\commands',
-    'aliases' => [
+    'aliases'             => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'components' => [
+    'components'          => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'log' => [
+        'log'   => [
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class'  => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
             ],
         ],
-        'db' => $db,
+        'db'    => $db,
     ],
 ];
-
-return $config;

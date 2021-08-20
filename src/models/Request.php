@@ -18,12 +18,12 @@ use yii\db\Expression;
  */
 class Request extends \yii\db\ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'requests';
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             [
@@ -33,7 +33,7 @@ class Request extends \yii\db\ActiveRecord
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['email', 'phone'], 'required'],

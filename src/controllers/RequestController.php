@@ -10,18 +10,18 @@ use yii\web\NotFoundHttpException;
 
 class RequestController extends Controller
 {
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $searchModel = new RequestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionView($id)
+    public function actionView($id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -54,7 +54,7 @@ class RequestController extends Controller
         ]);
     }
 
-    protected function findModel($id)
+    protected function findModel($id): ?Request
     {
         if (($model = Request::findOne($id)) !== null) {
             return $model;

@@ -21,48 +21,48 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+    'dataProvider' => $dataProvider,
+    'filterModel'  => $searchModel,
+    'columns'      => [
+        ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'created_at:datetime',
+        'id',
+        'created_at:datetime',
             //'updated_at:datetime',
-            'email:email',
-            'phone',
-            [
-                'attribute' => 'manager_id',
-                'filter' => Manager::getList(),
-                'value' => function (Request $request) {
+        'email:email',
+        'phone',
+        [
+            'attribute' => 'manager_id',
+            'filter'    => Manager::getList(),
+            'value'     => function (Request $request) {
                     return $request->manager ? $request->manager->name : null;
-                }
-            ],
-            [
-                'class' => yii\grid\ActionColumn::class,
-                'template' => '{view}',
-                'buttons' => [
-                    'view' => function ($url) {
+            },
+        ],
+        [
+            'class'          => yii\grid\ActionColumn::class,
+            'template'       => '{view}',
+            'buttons'        => [
+                'view' => function ($url) {
                         return Html::a('Просмотр', $url, [
                             'class' => 'btn btn-primary',
                         ]);
-                    },
-                ],
-                'contentOptions' => ['style' => 'width:1px'],
+                },
             ],
-            [
-                'class' => yii\grid\ActionColumn::class,
-                'template' => '{update}',
-                'buttons' => [
-                    'update' => function ($url) {
+            'contentOptions' => ['style' => 'width:1px'],
+        ],
+        [
+            'class'          => yii\grid\ActionColumn::class,
+            'template'       => '{update}',
+            'buttons'        => [
+                'update' => function ($url) {
                         return Html::a('Редактировать', $url, [
                             'class' => 'btn btn-primary',
                         ]);
-                    },
-                ],
-                'contentOptions' => ['style' => 'width:1px'],
+                },
             ],
+            'contentOptions' => ['style' => 'width:1px'],
         ],
-    ]); ?>
+    ],
+]); ?>
 
 </div>

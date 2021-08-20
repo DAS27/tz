@@ -6,7 +6,7 @@ use yii\data\ActiveDataProvider;
 
 class RequestSearch extends Request
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id', 'manager_id'], 'integer'],
@@ -14,16 +14,16 @@ class RequestSearch extends Request
         ];
     }
 
-    public function search($params)
+    public function search($params): ActiveDataProvider
     {
         $query = Request::find();
         $query->with(['manager']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort' => [
+            'sort'  => [
                 'defaultOrder' => ['id' => SORT_DESC],
-            ]
+            ],
         ]);
 
         $this->load($params);
@@ -35,7 +35,7 @@ class RequestSearch extends Request
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'id'         => $this->id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'manager_id' => $this->manager_id,

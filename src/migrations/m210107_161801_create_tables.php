@@ -12,20 +12,20 @@ class m210107_161801_create_tables extends Migration
         }
 
         $this->createTable('managers', [
-            'id' => $this->primaryKey(),
+            'id'         => $this->primaryKey(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->notNull(),
-            'name' => $this->string()->notNull(),
-            'is_works' => $this->boolean()->notNull(),
+            'name'       => $this->string()->notNull(),
+            'is_works'   => $this->boolean()->notNull(),
         ], $tableOptions);
 
         $this->createTable('requests', [
-            'id' => $this->primaryKey(),
+            'id'         => $this->primaryKey(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->notNull(),
-            'email' => $this->string()->notNull(),
-            'phone' => $this->string()->notNull(),
-            'text' => $this->text(),
+            'email'      => $this->string()->notNull(),
+            'phone'      => $this->string()->notNull(),
+            'text'       => $this->text(),
             'manager_id' => $this->integer(),
         ], $tableOptions);
     }

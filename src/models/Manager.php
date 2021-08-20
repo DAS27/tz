@@ -14,22 +14,22 @@ use yii\db\Expression;
  */
 class Manager extends \yii\db\ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return 'managers';
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             [
                 'class' => TimestampBehavior::class,
                 'value' => new Expression('NOW()'),
-            ]
+            ],
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'is_works'], 'required'],
@@ -38,14 +38,14 @@ class Manager extends \yii\db\ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
-            'id' => 'ID',
+            'id'         => 'ID',
             'created_at' => 'Добавлен',
             'updated_at' => 'Изменен',
-            'name' => 'ФИО',
-            'is_works' => 'Сейчас работает',
+            'name'       => 'ФИО',
+            'is_works'   => 'Сейчас работает',
         ];
     }
 
