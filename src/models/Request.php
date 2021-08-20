@@ -29,7 +29,7 @@ class Request extends \yii\db\ActiveRecord
             [
                 'class' => TimestampBehavior::class,
                 'value' => new Expression('NOW()'),
-            ]
+            ],
         ];
     }
 
@@ -48,18 +48,44 @@ class Request extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'id'         => 'ID',
             'created_at' => 'Добавлен',
             'updated_at' => 'Изменен',
-            'email' => 'Email',
-            'phone' => 'Номер телефона',
+            'email'      => 'Email',
+            'phone'      => 'Номер телефона',
             'manager_id' => 'Ответственный менеджер',
-            'text' => 'Текст заявки',
+            'text'       => 'Текст заявки',
         ];
     }
 
     public function getManager()
     {
         return $this->hasOne(Manager::class, ['id' => 'manager_id']);
+    }
+
+    public static function findDuplicate(Request $req)
+    {
+        $query = Request::find()->alias('req1');
+        $query->with(['manager']);
+
+        $subQuery = Request::find()
+            ->alias('req2')
+            ->select(['id'])
+            ->where(['<', 'DATEDIFF(req1.created_at, req2.created_at)', 30])
+            ->andWhere(
+                ['AND', 'req1.email = :email', 'req1.phone = :phone'],
+                ['email' => $req->email, 'phone' => $req->phone]
+            )
+            ->andWhere(['AND', 'req1.email = req2.email', 'req1.phone = req2.phone'])
+            ->andWhere(
+                'created_at < :req_created_at',
+                ['req_created_at' => $req->created_at]
+            )
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(1);
+
+        $query->andWhere(['=', 'req1.id', $subQuery]);
+
+        return $query->one();
     }
 }

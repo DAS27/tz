@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'id',
         'created_at:datetime',
-            //'updated_at:datetime',
         'email:email',
         'phone',
         [
@@ -37,6 +36,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'value'     => function (Request $request) {
                     return $request->manager ? $request->manager->name : null;
             },
+        ],
+        [
+            'class'         => yii\grid\ActionColumn::class,
+            'template'      => '{view}',
+            'buttons'       => [
+                'view' => function ($url, $model) {
+                    $previousRequest = Request::findDuplicate($model);
+                    if ($previousRequest) {
+                        return Html::a("№ {$previousRequest->id}", ['request/view', 'id' => $previousRequest->id], [
+                            'class' => 'btn btn-link',
+                        ]);
+                    }
+
+                    return null;
+                },
+            ],
+            'header'        => 'Предыдущая заявка',
+            'headerOptions' => [
+                'style' => 'color:#337ab7;',
+            ],
         ],
         [
             'class'          => yii\grid\ActionColumn::class,
