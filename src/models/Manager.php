@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\db\Expression;
 
 /**
@@ -56,5 +57,28 @@ class Manager extends \yii\db\ActiveRecord
             'name',
             'id'
         );
+    }
+
+    public static function getRandomWorkingManagerId(): ActiveRecord
+    {
+        return Manager::find()
+                ->select('id')
+                ->orderBy(new Expression('rand()'))
+                ->where('is_works = true')
+                ->one();
+    }
+
+    public static function getManagerWithMinimalRequests(): ActiveRecord
+    {
+        $query = Request::find()
+            ->select(['count(*)'])
+            ->where('manager_id = managers.id');
+
+        return Manager::find()
+            ->select(['id', 'request_count' => $query])
+            ->where('is_works = true')
+            ->orderBy(['request_count' => SORT_ASC])
+            ->limit(1)
+            ->one();
     }
 }

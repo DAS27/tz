@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\services\RequestAssignerService;
 use Yii;
 use app\models\Request;
 use app\models\RequestSearch;
@@ -30,9 +31,10 @@ class RequestController extends Controller
 
     public function actionCreate()
     {
-        $model = new Request();
+	    $model = new Request();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            RequestAssignerService::assign($model);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
