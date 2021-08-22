@@ -3,6 +3,7 @@
 namespace app\models;
 
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\db\Expression;
 
 /**
@@ -16,7 +17,7 @@ use yii\db\Expression;
  *
  * @property Manager|null $manager
  */
-class Request extends \yii\db\ActiveRecord
+class Request extends ActiveRecord
 {
     public static function tableName(): string
     {
@@ -65,8 +66,9 @@ class Request extends \yii\db\ActiveRecord
 
     public static function findDuplicate(Request $req)
     {
-        $query = Request::find()->alias('req1');
-        $query->with(['manager']);
+        $query = Request::find()
+            ->alias('req1')
+            ->with(['manager']);
 
         $subQuery = Request::find()
             ->alias('req2')
@@ -78,8 +80,8 @@ class Request extends \yii\db\ActiveRecord
             )
             ->andWhere(['AND', 'req1.email = req2.email', 'req1.phone = req2.phone'])
             ->andWhere(
-                'id < :req_id',
-                ['req_id' => $req->id]
+                'created_at < :req_created_at',
+                ['req_created_at' => $req->created_at]
             )
             ->orderBy(['id' => SORT_DESC])
             ->limit(1);
