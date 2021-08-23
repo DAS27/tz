@@ -10,12 +10,16 @@ class RequestAssignerService
     public static function assign(Request $request)
     {
         $duplicateRequest = Request::findDuplicate($request);
-        $previousManagerDuplicateRequest = Manager::findOne($duplicateRequest->manager_id);
         $managerId = null;
 
-        if ($duplicateRequest && $previousManagerDuplicateRequest->is_works) {
-            $managerId = $previousManagerDuplicateRequest->id;
-        } elseif (!$duplicateRequest || !$previousManagerDuplicateRequest->is_works) {
+        if ($duplicateRequest) {
+            $previousManagerDuplicateRequest = Manager::findOne($duplicateRequest->manager_id);
+            if ($previousManagerDuplicateRequest->is_works) {
+                $managerId = $previousManagerDuplicateRequest->id;
+            }
+        }
+
+        if ($managerId == null) {
             $managerId = Manager::getManagerWithMinimalRequests()->id;
         }
 
